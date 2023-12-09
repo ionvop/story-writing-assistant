@@ -52,6 +52,8 @@ namespace _20231208 {
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e) {
+            Session.Save();
+
             if (Window.GetWindow(this) is MainWindow mainWindow) {
                 mainWindow.Navigate(new Uri("Menu.xaml", UriKind.Relative));
             }

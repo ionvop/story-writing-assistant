@@ -32,6 +32,8 @@ namespace _20231208 {
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e) {
+            Session.Save();
+
             if (Window.GetWindow(this) is MainWindow mainWindow) {
                 mainWindow.Navigate(new Uri("ChapterSelect.xaml", UriKind.Relative));
             }
@@ -56,6 +58,7 @@ namespace _20231208 {
         }
 
         private async void BtnGenerate_Click(object sender, RoutedEventArgs e) {
+            Session.Save();
             btnGenerate.Content = "Loading...";
             btnGenerate.IsEnabled = false;
             int chapterIndex = Session.CurrentBook?.Chapters.IndexOf(Session.CurrentChapter ?? new()) ?? -1;
@@ -65,32 +68,34 @@ namespace _20231208 {
                 "Summary: \n" +
                 Session.CurrentBook?.Description + "\n\n";
 
-            for (int i = 0; i <= chapterIndex; i++) {
-                Chapter? chapter = Session.CurrentBook?.Chapters.ElementAt(i);
-
-                content += chapter?.Title + " summary:\n" +
-                    chapter?.Description + "\n\n";
+            if (chapterIndex > 0) {
+                content += Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Title + " summary:\n" +
+                    Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Description + "\n\n" +
+                    Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Title + " story:\n" +
+                    Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Content + "\n\n";
             }
 
-            content += Session.CurrentChapter?.Title + " story:\n" +
-                Session.CurrentChapter?.Content + "\n\n" +
+            content += Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " summary:\n" +
+                Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Description + "\n\n" +
+                Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " story:\n" +
+                Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Content + "\n\n" +
                 "[Continue the story within the same chapter in just one paragraph]";
 
             List<Message> messages = new() {
                 new() {
-                    role = "system",
-                    content = "You will continue the story based on the given text."
+                    Role = "system",
+                    Content = "You will continue the story based on the given text."
                 },
 
                 new() {
-                    role = "user",
-                    content = content
+                    Role = "user",
+                    Content = content
                 }
             };
 
             Request requestData = new() {
-                model = "gpt-3.5-turbo",
-                messages = messages
+                Model = "gpt-3.5-turbo",
+                Messages = messages
             };
 
             string json = JsonConvert.SerializeObject(requestData, Formatting.Indented);
@@ -101,28 +106,41 @@ namespace _20231208 {
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = await client.SendAsync(request);
             string responseBody = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode) {
+                MessageBox.Show("Error: " + response.ReasonPhrase + "\n\n" + responseBody);
+            }
+
             Response res = JsonConvert.DeserializeObject<Response>(responseBody) ?? new();
-            inputContent.Text += "\n\n" + res.choices?.ElementAt(0).message?.content;
+            inputContent.Text += "\n\n" + res.Choices?.ElementAt(0).Message?.Content;
             btnGenerate.Content = "Generate";
             btnGenerate.IsEnabled = true;
         }
     }
 
     class Message {
-        public string? role;
-        public string? content;
+        [JsonProperty("role")]
+        public string? Role { get; set; }
+
+        [JsonProperty("content")]
+        public string? Content { get; set; }
     }
 
     class Request {
-        public string? model;
-        public List<Message>? messages;
+        [JsonProperty("model")]
+        public string? Model { get; set; }
+
+        [JsonProperty("messages")]
+        public List<Message>? Messages { get; set; }
     }
 
     class Response {
-        public List<Choice>? choices;
+        [JsonProperty("choices")]
+        public List<Choice>? Choices { get; set; }
     }
 
     class Choice {
-        public Message? message;
+        [JsonProperty("message")]
+        public Message? Message { get; set; }
     }
 }

@@ -53,17 +53,25 @@ namespace _20231208 {
             }
         }
 
+        // Let the AI continue the story for you
         private async void BtnGenerate_Click(object sender, RoutedEventArgs e) {
+            // Save the current state before generating content
             Control.Save();
+
+            // Update button appearance to indicate loading
             btnGenerate.Content = "Loading...";
             btnGenerate.IsEnabled = false;
+
+            // Determine the index of the current chapter
             int chapterIndex = Control.CurrentBook?.Chapters.IndexOf(Control.CurrentChapter ?? new()) ?? -1;
 
+            // Prepare the content for OpenAI request
             string content = "Story title:\n" +
                 Control.CurrentBook?.Title + "\n\n" +
                 "Summary: \n" +
                 Control.CurrentBook?.Description + "\n\n";
 
+            // Include the summary and story of the previous chapter if available
             if (chapterIndex > 0) {
                 content += Control.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Title + " summary:\n" +
                     Control.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Description + "\n\n" +
@@ -71,12 +79,14 @@ namespace _20231208 {
                     Control.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Content + "\n\n";
             }
 
+            // Include the summary and story of the current chapter
             content += Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " summary:\n" +
                 Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Description + "\n\n" +
                 Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " story:\n" +
                 Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Content + "\n\n" +
                 "[Continue the story within the same chapter in just one paragraph]";
 
+            // Prepare messages for OpenAI request
             List<Message> messages = new() {
                 new() {
                     Role = "system",
@@ -89,26 +99,38 @@ namespace _20231208 {
                 }
             };
 
+            // Prepare the request data for OpenAI API
             Request requestData = new() {
                 Model = "gpt-3.5-turbo",
                 Messages = messages
             };
 
+            // Serialize the request data to JSON
             string json = JsonConvert.SerializeObject(requestData, Formatting.Indented);
+
+            // Set up HttpClient and prepare the request
             HttpClient client = new();
             HttpRequestMessage request = new(HttpMethod.Post, "https://api.openai.com/v1/chat/completions");
             request.Headers.Add("Authorization", "Bearer " + Control.ApiKey);
             request.Content = new StringContent(json);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            // Send the request to OpenAI API
             HttpResponseMessage response = await client.SendAsync(request);
             string responseBody = await response.Content.ReadAsStringAsync();
 
+            // Check for errors in the response
             if (!response.IsSuccessStatusCode) {
                 MessageBox.Show("Error: " + response.ReasonPhrase + "\n\n" + responseBody);
             }
 
+            // Deserialize the OpenAI response
             Response res = JsonConvert.DeserializeObject<Response>(responseBody) ?? new();
+
+            // Add the generated content to the story
             inputContent.Text += "\n\n" + res.Choices?.ElementAt(0).Message?.Content;
+
+            // Restore the button to its original state
             btnGenerate.Content = "Generate";
             btnGenerate.IsEnabled = true;
         }

@@ -20,11 +20,11 @@ namespace _20231208 {
     public partial class Menu_Books : Page {
         public Menu_Books() {
             InitializeComponent();
-            listBooks.ItemsSource = Session.Books;
+            listBooks.ItemsSource = Control.Books;
         }
 
         private void BtnNew_Click(object sender, RoutedEventArgs e) {
-            Session.Books.Add(new Book("New book"));
+            Control.Books.Add(new("New book"));
             Update();
         }
 
@@ -41,14 +41,12 @@ namespace _20231208 {
         }
 
         private void BtnOpen_Click(object sender, RoutedEventArgs e) {
-            if (Window.GetWindow(this) is MainWindow mainWindow) {
-                if (listBooks.SelectedItem is Book book) Session.CurrentBook = book; else return;
-                mainWindow.Navigate(new Uri("ChapterSelect.xaml", UriKind.Relative));
-            }
+            if (listBooks.SelectedItem is Book book) Control.CurrentBook = book; else return;
+            Control.Navigate(Window.GetWindow(this), "ChapterSelect.xaml");
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e) {
-            if (listBooks.SelectedItem is Book book) Session.Books.Remove(book);
+            if (listBooks.SelectedItem is Book book) Control.Books.Remove(book);
             Update();
         }
 
@@ -66,7 +64,7 @@ namespace _20231208 {
 
         public void Update() {
             listBooks.ItemsSource = null;
-            listBooks.ItemsSource = Session.Books;
+            listBooks.ItemsSource = Control.Books;
         }
     }
 }

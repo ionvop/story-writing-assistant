@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace _20231208 {
-    internal class Book : INotifyPropertyChanged {
-        public string Id;
+    internal class Book : BaseEntity {
+        // Private field used to check whether the value of the Title field has been changed or not
         private string _title = "";
 
+        // Title of the book
         public string Title {
             get { return _title; }
             set {
@@ -20,30 +17,26 @@ namespace _20231208 {
             }
         }
 
-        public string Author;
-        public string Description;
-        public List<Chapter> Chapters;
+        // Author of the book
+        public string Author { get; set; }
 
+        // Description of the book
+        public string Description { get; set; }
+
+        // List of chapters in the book
+        public List<Chapter> Chapters { get; set; }
+
+        // Default constructor initializing properties
         public Book() {
-            Id = Guid.NewGuid().ToString();
             Title = "";
             Author = "";
             Description = "";
-            Chapters = new List<Chapter>();
+            Chapters = new();
         }
 
-        public Book(string title) {
-            Id = Guid.NewGuid().ToString();
+        // Constructor with title parameter, using the default constructor and setting the title
+        public Book(string title) : this() {
             Title = title;
-            Author = "";
-            Description = "";
-            Chapters = new List<Chapter>();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

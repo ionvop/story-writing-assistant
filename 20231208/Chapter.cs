@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
 
 namespace _20231208 {
-    internal class Chapter : INotifyPropertyChanged {
-        public string Id;
+    internal class Chapter : BaseEntity {
+        // Private field used to check whether the value of the Title field has been changed or not
         private string _title = "";
 
+        // Title of the chapter
         public string Title {
             get { return _title; }
             set {
@@ -20,27 +16,22 @@ namespace _20231208 {
             }
         }
 
-        public string Description;
-        public string Content;
+        // Description of the chapter
+        public string Description { get; set; }
 
+        // Content of the chapter
+        public string Content { get; set; }
+
+        // Default constructor initializing properties
         public Chapter() {
-            Id = Guid.NewGuid().ToString();
             Title = "";
             Description = "";
             Content = "";
         }
 
-        public Chapter(string title) {
-            Id = Guid.NewGuid().ToString();
+        // Constructor with title parameter, using the default constructor and setting the title
+        public Chapter(string title) : this() {
             Title = title;
-            Description = "";
-            Content = "";
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName) {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

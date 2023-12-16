@@ -20,11 +20,11 @@ namespace _20231208 {
     public partial class Menu_Settings : Page {
         public Menu_Settings() {
             InitializeComponent();
-            inputKey.Text = Session.ApiKey;
+            inputKey.Text = Control.ApiKey;
         }
 
         private void InputKey_TextChanged(object sender, System.EventArgs e) {
-            Session.ApiKey = inputKey.Text;
+            Control.ApiKey = inputKey.Text;
         }
     }
 }

@@ -24,7 +24,7 @@ namespace _20231208 {
         public Editor() {
             InitializeComponent();
 
-            if (Session.CurrentChapter is Chapter chapter) {
+            if (Control.CurrentChapter is Chapter chapter) {
                 inputTitle.Text = chapter.Title;
                 inputDescription.Text = chapter.Description;
                 inputContent.Text = chapter.Content;
@@ -32,53 +32,49 @@ namespace _20231208 {
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e) {
-            Session.Save();
-
-            if (Window.GetWindow(this) is MainWindow mainWindow) {
-                mainWindow.Navigate(new Uri("ChapterSelect.xaml", UriKind.Relative));
-            }
+            Control.Navigate(Window.GetWindow(this), "ChapterSelect.xaml");
         }
 
         private void InputTitle_TextChanged(object sender, TextChangedEventArgs e) {
-            if (Session.CurrentChapter is Chapter chapter) {
+            if (Control.CurrentChapter is Chapter chapter) {
                 chapter.Title = inputTitle.Text;
             }
         }
 
         private void InputDescription_TextChanged(object sender, TextChangedEventArgs e) {
-            if (Session.CurrentChapter is Chapter chapter) {
+            if (Control.CurrentChapter is Chapter chapter) {
                 chapter.Description = inputDescription.Text;
             }
         }
 
         private void InputContent_TextChanged(object sender, TextChangedEventArgs e) {
-            if (Session.CurrentChapter is Chapter chapter) {
+            if (Control.CurrentChapter is Chapter chapter) {
                 chapter.Content = inputContent.Text;
             }
         }
 
         private async void BtnGenerate_Click(object sender, RoutedEventArgs e) {
-            Session.Save();
+            Control.Save();
             btnGenerate.Content = "Loading...";
             btnGenerate.IsEnabled = false;
-            int chapterIndex = Session.CurrentBook?.Chapters.IndexOf(Session.CurrentChapter ?? new()) ?? -1;
+            int chapterIndex = Control.CurrentBook?.Chapters.IndexOf(Control.CurrentChapter ?? new()) ?? -1;
 
             string content = "Story title:\n" +
-                Session.CurrentBook?.Title + "\n\n" +
+                Control.CurrentBook?.Title + "\n\n" +
                 "Summary: \n" +
-                Session.CurrentBook?.Description + "\n\n";
+                Control.CurrentBook?.Description + "\n\n";
 
             if (chapterIndex > 0) {
-                content += Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Title + " summary:\n" +
-                    Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Description + "\n\n" +
-                    Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Title + " story:\n" +
-                    Session.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Content + "\n\n";
+                content += Control.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Title + " summary:\n" +
+                    Control.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Description + "\n\n" +
+                    Control.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Title + " story:\n" +
+                    Control.CurrentBook?.Chapters.ElementAt(chapterIndex - 1).Content + "\n\n";
             }
 
-            content += Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " summary:\n" +
-                Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Description + "\n\n" +
-                Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " story:\n" +
-                Session.CurrentBook?.Chapters.ElementAt(chapterIndex).Content + "\n\n" +
+            content += Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " summary:\n" +
+                Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Description + "\n\n" +
+                Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Title + " story:\n" +
+                Control.CurrentBook?.Chapters.ElementAt(chapterIndex).Content + "\n\n" +
                 "[Continue the story within the same chapter in just one paragraph]";
 
             List<Message> messages = new() {
@@ -101,7 +97,7 @@ namespace _20231208 {
             string json = JsonConvert.SerializeObject(requestData, Formatting.Indented);
             HttpClient client = new();
             HttpRequestMessage request = new(HttpMethod.Post, "https://api.openai.com/v1/chat/completions");
-            request.Headers.Add("Authorization", "Bearer " + Session.ApiKey);
+            request.Headers.Add("Authorization", "Bearer " + Control.ApiKey);
             request.Content = new StringContent(json);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             HttpResponseMessage response = await client.SendAsync(request);

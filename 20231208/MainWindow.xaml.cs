@@ -21,8 +21,8 @@ namespace _20231208 {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            Session.Load();
-            mainFrame.Navigate(new Uri("Menu.xaml", UriKind.Relative));
+            Control.Load();
+            mainFrame.Navigate(new("Menu.xaml", UriKind.Relative));
         }
 
         public void Navigate(Uri uri) {
@@ -31,7 +31,7 @@ namespace _20231208 {
 
         protected override void OnClosing(CancelEventArgs e) {
             base.OnClosing(e);
-            Session.Save();
+            Control.Save();
         }
     }
 }

@@ -21,22 +21,18 @@ namespace _20231208 {
         public ChapterSelect() {
             InitializeComponent();
 
-            if (Session.CurrentBook == null) {
+            if (Control.CurrentBook == null) {
                 MessageBox.Show("Error loading book.");
-
-                if (Window.GetWindow(this) is MainWindow mainWindow) {
-                    mainWindow.Navigate(new Uri("Menu.xaml", UriKind.Relative));
-                }
-
+                Control.Navigate(Window.GetWindow(this), "Menu.xaml");
                 return;
             }
 
-            textTitle.Text = "Chapters for " + Session.CurrentBook.Title;
-            listChapters.ItemsSource = Session.CurrentBook.Chapters;
+            textTitle.Text = "Chapters for " + Control.CurrentBook.Title;
+            listChapters.ItemsSource = Control.CurrentBook.Chapters;
         }
 
         private void BtnNew_Click(object sender, RoutedEventArgs e) {
-            Session.CurrentBook?.Chapters.Add(new Chapter("New chapter"));
+            Control.CurrentBook?.Chapters.Add(new("New chapter"));
             Update();
         }
 
@@ -52,11 +48,7 @@ namespace _20231208 {
         }
 
         private void BtnBack_Click(object sender, RoutedEventArgs e) {
-            Session.Save();
-
-            if (Window.GetWindow(this) is MainWindow mainWindow) {
-                mainWindow.Navigate(new Uri("Menu.xaml", UriKind.Relative));
-            }
+            Control.Navigate(Window.GetWindow(this), "Menu.xaml");
         }
 
         private void InputTitle_TextChanged(object sender, TextChangedEventArgs e) {
@@ -68,20 +60,18 @@ namespace _20231208 {
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e) {
-            if (Window.GetWindow(this) is MainWindow mainWindow) {
-                if (listChapters.SelectedItem is Chapter chapter) Session.CurrentChapter = chapter; else return;
-                mainWindow.Navigate(new Uri("Editor.xaml", UriKind.Relative));
-            }
+            if (listChapters.SelectedItem is Chapter chapter) Control.CurrentChapter = chapter; else return;
+            Control.Navigate(Window.GetWindow(this), "Editor.xaml");
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e) {
-            if (listChapters.SelectedItem is Chapter chapter) Session.CurrentBook?.Chapters.Remove(chapter);
+            if (listChapters.SelectedItem is Chapter chapter) Control.CurrentBook?.Chapters.Remove(chapter);
             Update();
         }
 
         public void Update() {
             listChapters.ItemsSource = null;
-            listChapters.ItemsSource = Session.CurrentBook?.Chapters;
+            listChapters.ItemsSource = Control.CurrentBook?.Chapters;
         }
     }
 }

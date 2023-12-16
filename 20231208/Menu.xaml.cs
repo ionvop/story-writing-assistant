@@ -20,15 +20,15 @@ namespace _20231208 {
     public partial class Menu : Page {
         public Menu() {
             InitializeComponent();
-            mainFrame.Navigate(new Uri("Menu_Books.xaml", UriKind.Relative));
+            mainFrame.Navigate(new("Menu_Books.xaml", UriKind.Relative));
         }
 
         private void BtnBooks_Click(object sender, RoutedEventArgs e) {
-            mainFrame.Navigate(new Uri("Menu_Books.xaml", UriKind.Relative));
+            mainFrame.Navigate(new("Menu_Books.xaml", UriKind.Relative));
         }
 
         private void BtnSettings_Click(object sender, RoutedEventArgs e) {
-            mainFrame.Navigate(new Uri("Menu_Settings.xaml", UriKind.Relative));
+            mainFrame.Navigate(new("Menu_Settings.xaml", UriKind.Relative));
         }
 
         private void BtnExit_Click(object sender, RoutedEventArgs e) {

@@ -1,9 +1,9 @@
 # story-writing-assistant
-An AI-powered assistant to help you write engaging stories. A GUI application school project submission.
+An AI-powered assistant to help you write engaging stories. A simple GUI application school project submission.
 
 ## Book Management System
 ### Introduction
-This documentation outlines the structure and functionality of a **Book Management System** used by the **Story Writing Assistant** application implemented in C#. The system provides a framework for managing books, chapters, and associated data. The primary features include the definition of entities (`BaseEntity`, `Book`, and `Chapter`), a centralized control class (`Control`), and functionality for saving and loading data using JSON serialization.
+This documentation explains the structure and functionality of a Book Management System that will be used in this application. The system provides a framework for managing books, chapters, and associated data. The primary features include the definition of entities (`BaseEntity`, `Book`, and `Chapter`), a centralized control class (`Control`), and functionality for saving and loading data using JSON serialization.
 
 ### BaseEntity Class
 
@@ -80,10 +80,10 @@ Book myBook = new Book("Software Development Fundamentals");
 myBook.PropertyChanged += (sender, args) => Console.WriteLine($"Property {args.PropertyName} changed.");
 
 // Modifying the title triggers the event
-myBook.Title = "Software Development Fundamentals 2: The Sequel";
+myBook.Title = "Software Development Fundamentals: Object-Oriented Programming";
 ```
 
-This documentation provides an overview of the implemented classes and their functionalities. Developers can use this system as a foundation for building book management applications, extending and customizing it based on specific requirements.
+This documentation provides an overview of the implemented classes and their functionalities. This also serves as a testament to the importance of **Object-Oriented Programming** in ways such as that other developers can use this system as a foundation for building book management applications, extending and customizing it based on specific requirements.
 
 ---
 ## Applications of OOP concepts

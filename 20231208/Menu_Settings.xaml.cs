@@ -20,10 +20,14 @@ namespace _20231208 {
     public partial class Menu_Settings : Page {
         public Menu_Settings() {
             InitializeComponent();
+
+            // Sets the textbox to the current API key from the Control class
             inputKey.Text = Control.ApiKey;
         }
 
+        // Event handler for when the text in the inputKey TextBox changes
         private void InputKey_TextChanged(object sender, System.EventArgs e) {
+            // Updates the API key in the Control class
             Control.ApiKey = inputKey.Text;
         }
     }

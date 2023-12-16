@@ -20,9 +20,13 @@ namespace _20231208 {
     public partial class Menu : Page {
         public Menu() {
             InitializeComponent();
+
+            // Navigate to the Menu_Books.xaml page when the Menu page is loaded
             mainFrame.Navigate(new("Menu_Books.xaml", UriKind.Relative));
         }
 
+        // The following are Click event handlers for the sidebar buttons
+        // They navigate to the specified page when the sidebar button is clicked
         private void BtnBooks_Click(object sender, RoutedEventArgs e) {
             mainFrame.Navigate(new("Menu_Books.xaml", UriKind.Relative));
         }
@@ -31,7 +35,9 @@ namespace _20231208 {
             mainFrame.Navigate(new("Menu_Settings.xaml", UriKind.Relative));
         }
 
+        // Event handler for the Exit sidebar button click
         private void BtnExit_Click(object sender, RoutedEventArgs e) {
+            // Shut down the application when the 'Exit' button is clicked
             Application.Current.Shutdown();
         }
     }

@@ -15,7 +15,7 @@ namespace _20231208 {
         // The currently selected chapter within the current book
         public static Chapter? CurrentChapter { get; set; }
 
-        // API key used for OpenAI services (initialized to an empty string)
+        // API key used for OpenAI services
         public static string ApiKey = "";
 
         // File path where data is saved
@@ -75,8 +75,12 @@ namespace _20231208 {
         }
     }
 
+    // A simple container for serializing and deserializing used when saving and loading data
     class Data {
+        // List of books
         public List<Book>? Books;
+
+        // API key used for OpenAI services
         public string? ApiKey;
     }
 }

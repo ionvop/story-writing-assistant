@@ -98,7 +98,7 @@ In the `Book` and `Chapter` classes, the `Title` property includes a validation 
 The constructors initialize the `Book`/`Chapter` object, encapsulating the logic for setting default values and ensuring that the object is in a valid state upon creation.
 
 #### Event (PropertyChanged Event)
-In the `BaseEntity` class, The `PropertyChanged` event is used to notify external entities (like UI components) when the value of the `Title` property changes. This allows external components to respond to changes in the internal state without direct access to the internal fields.
+In the `BaseEntity` class, the `PropertyChanged` event is used to notify external entities (like UI components) when the value of the `Title` property changes. This allows external components to respond to changes in the internal state without direct access to the internal fields.
 
 ### Inheritance
 The `MainWindow` class is declared with a base class of `Window`: `public partial class MainWindow : Window`.

@@ -8,6 +8,7 @@ namespace _20231208 {
         public string Id = Guid.NewGuid().ToString();
 
         // Event to notify subscribers when a property changes
+        // Used to refresh the books/chapter list when the book's/chapter's title changed
         public event PropertyChangedEventHandler? PropertyChanged;
 
         // Method to invoke the PropertyChanged event

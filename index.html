@@ -1,0 +1,1609 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="manifest" href="manifest.json">
+        <style>
+            body {
+                margin: 0rem;
+                padding: 0rem;
+                background-color: #111;
+                color: #fff;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            input {
+                padding: 1rem;
+                width: 100%;
+                background-color: transparent;
+                color: #fff;
+                border: none;
+                border-bottom: 1px solid #aaa;
+                font-size: 1rem;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            textarea {
+                padding: 1rem;
+                width: 100%;
+                height: 5rem;
+                background-color: #222;
+                color: #fff;
+                border: 1px solid #aaa;
+                border-radius: 1rem;
+                resize: vertical;
+                font-size: 1rem;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            button {
+                padding: 1rem;
+                background-color: #222;
+                color: #fff;
+                border-radius: 1rem;
+                border: 1px solid #555;
+                font-size: 1rem;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageHome">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: repeat(2, max-content) 1fr max-content;
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        SWA
+                    </div>
+                    <div style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 1rem;
+                        padding-left: 0rem;
+                        font-size: 0.7rem;
+                        color: #aaa;">
+                        v0.2.0 by ionvop
+                    </div>
+                    <div></div>
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('settings')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
+                    </div>
+                </div>
+                <div style="
+                    position: relative;
+                    overflow: hidden;">
+                    <div style="
+                        overflow: auto;
+                        height: 100%;"
+                        id="home_panelBooks">
+                        
+                    </div>
+                    <div style="
+                        display: grid;
+                        grid-template-columns: 1fr max-content;
+                        position: absolute;
+                        bottom: 0rem;
+                        left: 0rem;
+                        right: 0rem">
+                        <div></div>
+                        <div style="
+                            padding: 1rem;">
+                            <button style="
+                                padding: 1rem;
+                                background-color: #aaf;
+                                border-radius: 1rem;"
+                                onclick="home_btnNewBook()">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageSettings">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr;
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('home')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        Settings
+                    </div>
+                </div>
+                <div style="
+                    overflow: auto;">
+                    <div style="
+                        padding: 1rem;">
+                        OpenAI Endpoint URL
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;">
+                        <input id="settings_inputBaseUrl"
+                            placeholder="https://api.openai.com/v1/chat/completions"
+                            onchange="settings_funcSaveSettings()">
+                    </div>
+                    <div style="
+                        padding: 1rem;">
+                        API Key
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;">
+                        <input id="settings_inputApiKey"
+                            type="password"
+                            placeholder="sk-proj-..."
+                            onchange="settings_funcSaveSettings()">
+                    </div>
+                    <div style="
+                        padding: 1rem;">
+                        Model
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;">
+                        <input id="settings_inputModel"
+                            placeholder="gpt-4o-mini"
+                            onchange="settings_funcSaveSettings()">
+                    </div>
+                    <div style="
+                        padding: 1rem;">
+                        <button onclick="settings_btnImport()">
+                            Import Data
+                        </button>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem">
+                        <button onclick="settings_btnExport()">
+                            Export Data
+                        </button>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem">
+                        <button onclick="settings_btnClear()">
+                            Clear Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageEditBook">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr;
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="editBook_btnCancel()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        Edit Book
+                    </div>
+                </div>
+                <div style="
+                    display: grid;
+                    grid-template-rows: repeat(3, max-content) 1fr max-content;">
+                    <div style="
+                        padding: 1rem;">
+                        Title
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;">
+                        <input id="editBook_inputTitle"
+                            required>
+                    </div>
+                    <div style="
+                        padding: 1rem;">
+                        Description
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;">
+                        <textarea style="
+                            height: 100%;"
+                            id="editBook_inputDescription"
+                            placeholder="Enter a description..."></textarea>
+                    </div>
+                    <div style="
+                        display: grid;
+                        grid-template-columns: max-content 1fr max-content;">
+                        <div style="
+                            padding: 1rem;
+                            color: #f00;"
+                            onclick="editBook_btnDelete()">
+                            Delete
+                        </div>
+                        <div></div>
+                        <div style="
+                            padding: 1rem;
+                            padding-left: 0rem;"
+                            onclick="editBook_btnSave()">
+                            Save
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageChapters">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr max-content;
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('home')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        Chapter List
+                    </div>
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('editBook')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
+                    </div>
+                </div>
+                <div style="
+                    display: grid;
+                    grid-template-rows: repeat(2, max-content) 1fr;
+                    position: relative;
+                    overflow: hidden;">
+                    <div style="
+                        padding: 1rem;">
+                        <div style="
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            font-size: 1.5rem;
+                            text-align: center;"
+                            id="chapters_panelTitle">
+
+                        </div>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;
+                        border-bottom: 1px solid #555;">
+                        <div style="
+                            display: -webkit-box;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            color: #aaa;
+                            text-align: center;"
+                            id="chapters_panelDescription">
+
+                        </div>
+                    </div>
+                    <div style="
+                        overflow: auto;
+                        height: 100%;"
+                        id="chapters_panelChapters">
+                        
+                    </div>
+                    <div style="
+                        display: grid;
+                        grid-template-columns: 1fr max-content;
+                        position: absolute;
+                        bottom: 0rem;
+                        left: 0rem;
+                        right: 0rem">
+                        <div></div>
+                        <div style="
+                            padding: 1rem;">
+                            <button style="
+                                padding: 1rem;
+                                background-color: #aaf;
+                                border-radius: 1rem;"
+                                onclick="chapters_btnNewChapter()">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageEditChapter">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr;
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="editChapter_btnCancel()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        Edit Chapter
+                    </div>
+                </div>
+                <div style="
+                    display: grid;
+                    grid-template-rows: repeat(3, max-content) 1fr max-content;">
+                    <div style="
+                        padding: 1rem;">
+                        Title
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;">
+                        <input id="editChapter_inputTitle"
+                            required>
+                    </div>
+                    <div style="
+                        padding: 1rem;">
+                        Description
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-top: 0rem;">
+                        <textarea style="
+                            height: 100%;"
+                            id="editChapter_inputDescription"
+                            placeholder="Enter a description..."></textarea>
+                    </div>
+                    <div style="
+                        display: grid;
+                        grid-template-columns: max-content 1fr max-content;">
+                        <div style="
+                            padding: 1rem;
+                            color: #f00;"
+                            onclick="editChapter_btnDelete()">
+                            Delete
+                        </div>
+                        <div></div>
+                        <div style="
+                            padding: 1rem;
+                            padding-left: 0rem;"
+                            onclick="editChapter_btnSave()">
+                            Save
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageContent">
+            <div style="
+                display: grid;
+                grid-template-rows: repeat(3, max-content) 1fr max-content;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr repeat(3, max-content);
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('chapters')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;">
+                        <div style="
+                            display: -webkit-box;
+                            -webkit-line-clamp: 1;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            word-break: break-all;
+                            font-size: 1.5rem;">
+                            Edit Content
+                        </div>
+                    </div>
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('history')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-left: 0rem;"
+                        onclick="openPage('chat')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm160-320h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        padding-left: 0rem;"
+                        onclick="openPage('editChapter')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm112-260q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Z"/></svg>
+                    </div>
+                </div>
+                <div style="
+                    padding: 1rem;">
+                    <div style="
+                        display: -webkit-box;
+                        -webkit-line-clamp: 1;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        font-size: 1.5rem;
+                        text-align: center;"
+                        id="content_panelTitle">
+
+                    </div>
+                </div>
+                <div style="
+                    padding: 1rem;
+                    padding-top: 0rem;
+                    border-bottom: 1px solid #555;">
+                    <div style="
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        color: #aaa;
+                        text-align: center;"
+                        id="content_panelDescription">
+
+                    </div>
+                </div>
+                <div style="
+                    padding: 1rem;">
+                    <textarea style="
+                        height: 100%;"
+                        id="content_inputContent"
+                        placeholder="Enter content..."
+                        onchange="content_inputContent_change()"></textarea>
+                </div>
+                <div style="
+                    display: grid;
+                    grid-template-columns: 1fr max-content;">
+                    <div style="
+                        padding: 1rem;">
+                        <textarea style="
+                            resize: none;"
+                            id="content_inputPrompt"
+                            placeholder="Enter prompt..."
+                            oninput="content_inputPrompt_input()"></textarea>
+                    </div>
+                    <div style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 1rem;
+                        padding-left: 0rem;"
+                        id="content_btnGenerate"
+                        onclick="content_btnGenerate_click()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-160v-240l320-80-320-80v-240l760 320-760 320Z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageHistory">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr max-content;
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('content')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        History
+                    </div>
+                    <div style="
+                        padding: 1rem;"
+                        onclick="history_btnClear()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-280v-80h560v80H120Zm80-160v-80h560v80H200Zm80-160v-80h560v80H280Z"/></svg>
+                    </div>
+                </div>
+                <div style="
+                    overflow: auto;"
+                    id="history_panelHistory">
+
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageChat">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr max-content;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr repeat(2, max-content);
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('content')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        Chat
+                    </div>
+                    <div style="
+                        padding: 1rem;"
+                        onclick="chat_btnNewChat()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('chats')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-120q-138 0-240.5-91.5T122-440h82q14 104 92.5 172T480-200q117 0 198.5-81.5T760-480q0-117-81.5-198.5T480-760q-69 0-129 32t-101 88h110v80H120v-240h80v94q51-64 124.5-99T480-840q75 0 140.5 28.5t114 77q48.5 48.5 77 114T840-480q0 75-28.5 140.5t-77 114q-48.5 48.5-114 77T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z"/></svg>
+                    </div>
+                </div>
+                <div style="
+                    overflow: auto;"
+                    id="chat_panelChats">
+
+                </div>
+                <div style="
+                    display: grid;
+                    grid-template-columns: 1fr max-content;">
+                    <div style="
+                        padding: 1rem;">
+                        <textarea style="
+                            resize: none;"
+                            id="chat_inputMessage"
+                            placeholder="Enter message..."
+                            oninput="chat_inputMessage_input()"></textarea>
+                    </div>
+                    <div style="
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 1rem;
+                        padding-left: 0rem;"
+                        id="chat_btnSend"
+                        onclick="chat_btnSend_click()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-160v-240l320-80-320-80v-240l760 320-760 320Z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="
+            display: none;
+            height: 100%;"
+            id="pageChats">
+            <div style="
+                display: grid;
+                grid-template-rows: max-content 1fr;
+                height: 100%;">
+                <div style="
+                    display: grid;
+                    grid-template-columns: max-content 1fr max-content;
+                    border-bottom: 1px solid #aaa;">
+                    <div style="
+                        padding: 1rem;"
+                        onclick="openPage('chat')">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>
+                    </div>
+                    <div style="
+                        padding: 1rem;
+                        font-size: 1.5rem;">
+                        Chat History
+                    </div>
+                    <div style="
+                        padding: 1rem;"
+                        onclick="chats_btnClear()">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M120-280v-80h560v80H120Zm80-160v-80h560v80H200Zm80-160v-80h560v80H280Z"/></svg>
+                    </div>
+                </div>
+                <div style="
+                    overflow: auto;"
+                    id="chats_panelHistory">
+
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+        <script>
+            if ("serviceWorker" in navigator) {
+                navigator.serviceWorker.register("service-worker.js");
+            }
+
+            let pageHome = document.getElementById("pageHome");
+            let home_panelBooks = document.getElementById("home_panelBooks");
+            let pageSettings = document.getElementById("pageSettings");
+            let settings_inputBaseUrl = document.getElementById("settings_inputBaseUrl");
+            let settings_inputApiKey = document.getElementById("settings_inputApiKey");
+            let settings_inputModel = document.getElementById("settings_inputModel");
+            let pageEditBook = document.getElementById("pageEditBook");
+            let editBook_inputTitle = document.getElementById("editBook_inputTitle");
+            let editBook_inputDescription = document.getElementById("editBook_inputDescription");
+            let pageChapters = document.getElementById("pageChapters");
+            let chapters_panelTitle = document.getElementById("chapters_panelTitle");
+            let chapters_panelDescription = document.getElementById("chapters_panelDescription");
+            let chapters_panelChapters = document.getElementById("chapters_panelChapters");
+            let pageEditChapter = document.getElementById("pageEditChapter");
+            let editChapter_inputTitle = document.getElementById("editChapter_inputTitle");
+            let editChapter_inputDescription = document.getElementById("editChapter_inputDescription");
+            let pageContent = document.getElementById("pageContent");
+            let content_panelTitle = document.getElementById("content_panelTitle");
+            let content_panelDescription = document.getElementById("content_panelDescription");
+            let content_inputContent = document.getElementById("content_inputContent");
+            let content_inputPrompt = document.getElementById("content_inputPrompt");
+            let content_btnGenerate = document.getElementById("content_btnGenerate");
+            let pageHistory = document.getElementById("pageHistory");
+            let history_panelHistory = document.getElementById("history_panelHistory");
+            let pageChat = document.getElementById("pageChat");
+            let chat_panelChats = document.getElementById("chat_panelChats");
+            let chat_inputMessage = document.getElementById("chat_inputMessage");
+            let chat_btnSend = document.getElementById("chat_btnSend");
+            let pageChats = document.getElementById("pageChats");
+            let chats_panelHistory = document.getElementById("chats_panelHistory");
+            let currentBookIndex = -1;
+            let currentChapterIndex = -1;
+            let currentChatIndex = -1;
+            let data = JSON.parse(localStorage.getItem("20250717_data"));
+
+            try {
+                update();
+
+                if (data == null) {
+                    data = {
+                        books: [],
+                        baseUrl: "https://api.openai.com/v1/chat/completions",
+                        apiKey: "",
+                        model: "gpt-4o-mini"
+                    };
+                }
+
+                openPage("home");
+            } catch (e) {
+                alert(e);
+            }
+
+            function getDateString(date) {
+                let month = (date.getMonth() + 1).toString().padStart(2, "0");
+                let day = date.getDate().toString().padStart(2, "0");
+                let hour = date.getHours().toString().padStart(2, "0");
+                let minute = date.getMinutes().toString().padStart(2, "0");
+                let second = date.getSeconds().toString().padStart(2, "0");
+                return `${date.getFullYear()}-${month}-${day} ${hour}-${minute}-${second}`;
+            }
+
+            function getContext() {
+                let book = data.books[currentBookIndex];
+
+                let body = [
+                    {
+                        role: "user",
+                        content: `BOOK TITLE: ${book.title}\n\n` +
+                        `BOOK DESCRIPTION:\n${book.description}`
+                    }
+                ];
+
+                for (let i = book.chapters.length - 1; i >= currentChapterIndex; i--) {
+                    let chapter = book.chapters[i];
+
+                    body.push(
+                        {
+                            role: "user",
+                            content: `CHAPTER TITLE: ${chapter.title}\n\n` +
+                            `CHAPTER DESCRIPTION:\n${chapter.description}\n\n\n\n` +
+                            `CHAPTER CONTENT:\n${chapter.content}`
+                        }
+                    );
+                }
+
+                return body;
+            }
+
+            function escapeHtml(unsafe) {
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
+            }
+
+            function generateDummyData() {
+                let lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+                localStorage.clear();
+                
+                data = {
+                    books: [],
+                    baseUrl: "",
+                    apiKey: "",
+                    model: ""
+                };
+
+                for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+                    data.books.push({
+                        title: `Book ${i} - ${lorem}`,
+                        description: `Description of book ${i} - ${lorem}`,
+                        chapters: []
+                    });
+
+                    for (let j of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) {
+                        data.books[i].chapters.push({
+                            title: `Chapter ${j} of book ${i} - ${lorem}`,
+                            description: `Description of chapter ${j} of book ${i} - ${lorem}`,
+                            content: `Content of chapter ${j} of book ${i} - ${lorem}`
+                        });
+                    }
+                }
+
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+            }
+
+            function openPage(page) {
+                pageHome.style.display = "none";
+                pageSettings.style.display = "none";
+                pageEditBook.style.display = "none";
+                pageChapters.style.display = "none";
+                pageEditChapter.style.display = "none";
+                pageContent.style.display = "none";
+                pageHistory.style.display = "none";
+                pageChat.style.display = "none";
+                pageChats.style.display = "none";
+
+                switch (page) {
+                    case "home":
+                        pageHome.style.display = "block";
+                        home_panelBooks.innerHTML = "";
+
+                        for (let book of data.books) {
+                            home_panelBooks.innerHTML += `
+                                <div style="
+                                    display: grid;
+                                    grid-template-columns: 1fr max-content;">
+                                    <div style="
+                                        padding: 1rem;"
+                                        onclick="home_btnOpenBook(this)"
+                                        data-index="${data.books.indexOf(book)}">
+                                        <div style="
+                                            background-color: #222;
+                                            border: 1px solid #555;
+                                            border-radius: 1rem;
+                                            padding: 1rem;">
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 1;
+                                                -webkit-box-orient: vertical;
+                                                font-size: 1.5rem;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;">
+                                                ${escapeHtml(book.title)}
+                                            </div>
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 3;
+                                                -webkit-box-orient: vertical;
+                                                padding-top: 1rem;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                color: #aaa;">
+                                                ${escapeHtml(book.description)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="
+                                        display: grid;
+                                        grid-template-rows: max-content 1fr max-content;">
+                                        <div style="
+                                            padding: 1rem;
+                                            padding-left: 0rem;"
+                                            onclick="home_btnMoveUp(this)"
+                                            data-index="${data.books.indexOf(book)}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></svg>
+                                        </div>
+                                        <div></div>
+                                        <div style="
+                                            padding: 1rem;
+                                            padding-left: 0rem;"
+                                            onclick="home_btnMoveDown(this)"
+                                            data-index="${data.books.indexOf(book)}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        }
+
+                        if (data.books.length == 0) {
+                            home_panelBooks.innerHTML += `
+                                <div style="
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    height: 100%;
+                                    color: #aaa;">
+                                    No books found
+                                </div>`;
+                        }
+
+                        break;
+                    case "settings":
+                        pageSettings.style.display = "block";
+                        settings_inputBaseUrl.value = data.baseUrl;
+                        settings_inputApiKey.value = data.apiKey;
+                        settings_inputModel.value = data.model;
+                        break;
+                    case "editBook":
+                        pageEditBook.style.display = "block";
+                        editBook_inputTitle.value = data.books[currentBookIndex].title;
+                        editBook_inputDescription.value = data.books[currentBookIndex].description;
+                        break;
+                    case "chapters":
+                        pageChapters.style.display = "block";
+                        chapters_panelTitle.textContent = data.books[currentBookIndex].title;
+                        chapters_panelDescription.textContent = data.books[currentBookIndex].description;
+                        chapters_panelChapters.innerHTML = "";
+                        let chapters = data.books[currentBookIndex].chapters;
+
+                        for (let chapter of chapters) {
+                            chapters_panelChapters.innerHTML += `
+                                <div style="
+                                    display: grid;
+                                    grid-template-columns: 1fr max-content;">
+                                    <div style="
+                                        padding: 1rem;"
+                                        onclick="chapters_btnOpenChapter(this)"
+                                        data-index="${chapters.indexOf(chapter)}">
+                                        <div style="
+                                            background-color: #222;
+                                            border: 1px solid #555;
+                                            border-radius: 1rem;
+                                            padding: 1rem;">
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 1;
+                                                -webkit-box-orient: vertical;
+                                                font-size: 1.5rem;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;">
+                                                ${escapeHtml(chapter.title)}
+                                            </div>
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 3;
+                                                -webkit-box-orient: vertical;
+                                                padding-top: 1rem;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                color: #aaa;">
+                                                ${escapeHtml(chapter.description)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="
+                                        display: grid;
+                                        grid-template-rows: max-content 1fr max-content;">
+                                        <div style="
+                                            padding: 1rem;
+                                            padding-left: 0rem;"
+                                            onclick="chapters_btnMoveUp(this)"
+                                            data-index="${chapters.indexOf(chapter)}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></svg>
+                                        </div>
+                                        <div></div>
+                                        <div style="
+                                            padding: 1rem;
+                                            padding-left: 0rem;"
+                                            onclick="chapters_btnMoveDown(this)"
+                                            data-index="${chapters.indexOf(chapter)}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M480-344 240-584l56-56 184 184 184-184 56 56-240 240Z"/></svg>
+                                        </div>
+                                    </div>
+                                </div>`;
+                        }
+
+                        if (chapters.length == 0) {
+                            chapters_panelChapters.innerHTML += `
+                                <div style="
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    height: 100%;
+                                    color: #aaa;">
+                                    No chapters found
+                                </div>`;
+                        }
+
+                        break;
+                    case "editChapter":
+                        pageEditChapter.style.display = "block";
+                        editChapter_inputTitle.value = data.books[currentBookIndex].chapters[currentChapterIndex].title;
+                        editChapter_inputDescription.value = data.books[currentBookIndex].chapters[currentChapterIndex].description;
+                        break;
+                    case "content":
+                        pageContent.style.display = "block";
+                        content_panelTitle.textContent = data.books[currentBookIndex].chapters[currentChapterIndex].title;
+                        content_panelDescription.textContent = data.books[currentBookIndex].chapters[currentChapterIndex].description;
+                        content_inputContent.value = data.books[currentBookIndex].chapters[currentChapterIndex].content;
+                        break;
+                    case "history":
+                        pageHistory.style.display = "block";
+                        let history = data.books[currentBookIndex].chapters[currentChapterIndex].history;
+                        history_panelHistory.innerHTML = "";
+
+                        for (let entry of history) {
+                            let entryContent = entry.content;
+
+                            if (entry.content.length > 170) {
+                                entryContent = entry.content.substring(0, 80) + "-.....-" + entry.content.substring(entry.content.length - 80);
+                            }
+
+                            history_panelHistory.innerHTML += `
+                                <div style="
+                                    display: grid;
+                                    grid-template-columns: 1fr max-content;">
+                                    <div style="
+                                        padding: 1rem;"
+                                        onclick="history_btnOpenHistory(this)"
+                                        data-index="${history.indexOf(entry)}">
+                                        <div style="
+                                            background-color: #222;
+                                            border: 1px solid #555;
+                                            border-radius: 1rem;
+                                            padding: 1rem;">
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 1;
+                                                -webkit-box-orient: vertical;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;">
+                                                ${entry.date}
+                                            </div>
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 5;
+                                                -webkit-box-orient: vertical;
+                                                padding-top: 1rem;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                color: #aaa;">
+                                                ${escapeHtml(entryContent)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        padding: 1rem;
+                                        padding-left: 0rem;"
+                                        onclick="history_btnDelete(this)"
+                                        data-index="${history.indexOf(entry)}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm80-160h80v-360h-80v360Zm160 0h80v-360h-80v360Z"/></svg>
+                                    </div>
+                                </div>`;
+                        }
+
+                        if (history.length == 0) {
+                            history_panelHistory.innerHTML += `
+                                <div style="
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    height: 100%;
+                                    color: #aaa;">
+                                    No history found
+                                </div>`;
+                        }
+
+                        break;
+                    case "chat":
+                        pageChat.style.display = "block";
+                        chat_panelChats.innerHTML = "";
+
+                        if (currentChatIndex != -1) {
+                            for (let chat of data.books[currentBookIndex].chapters[currentChapterIndex].chats[currentChatIndex].messages) {
+                                switch (chat.role) {
+                                    case "user":
+                                        chat_panelChats.innerHTML += `
+                                            <div style="
+                                                display: grid;
+                                                grid-template-columns: max-content 1fr;">
+                                                <div style="
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    align-items: center;
+                                                    padding: 1rem;"
+                                                    onclick="chat_btnDelete(this)"
+                                                    data-index="${data.books[currentBookIndex].chapters[currentChapterIndex].chats[currentChatIndex].messages.indexOf(chat)}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm80-160h80v-360h-80v360Zm160 0h80v-360h-80v360Z"/></svg>
+                                                </div>
+                                                <div style="
+                                                    padding: 1rem;
+                                                    padding-left: 0rem;">
+                                                    <div style="
+                                                        background-color: #222;
+                                                        border: 1px solid #555;
+                                                        border-radius: 1rem;
+                                                        padding: 1rem;">
+                                                        ${marked.parse(chat.content)}
+                                                    </div>
+                                                </div>
+                                            </div>`;
+
+                                        break;
+                                    case "assistant":
+                                        chat_panelChats.innerHTML += `
+                                            <div style="
+                                                display: grid;
+                                                grid-template-columns: 1fr max-content;">
+                                                <div style="
+                                                    padding: 1rem;">
+                                                    <div style="
+                                                        background-color: #222;
+                                                        border: 1px solid #555;
+                                                        border-radius: 1rem;
+                                                        padding: 1rem;">
+                                                        ${marked.parse(chat.content)}
+                                                    </div>
+                                                </div>
+                                                <div style="
+                                                    display: flex;
+                                                    justify-content: center;
+                                                    align-items: center;
+                                                    padding: 1rem;
+                                                    padding-left: 0rem;"
+                                                    onclick="chat_btnDelete(this)"
+                                                    data-index="${data.books[currentBookIndex].chapters[currentChapterIndex].chats[currentChatIndex].messages.indexOf(chat)}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm80-160h80v-360h-80v360Zm160 0h80v-360h-80v360Z"/></svg>
+                                                </div>
+                                            </div>`;
+
+                                        break;
+                                }
+                            }
+                        }
+
+                        chat_panelChats.scrollTop = chat_panelChats.scrollHeight;
+                        break;
+                    case "chats":
+                        pageChats.style.display = "block";
+                        chats_panelHistory.innerHTML = "";
+
+                        for (let chat of data.books[currentBookIndex].chapters[currentChapterIndex].chats) {
+                            chats_panelHistory.innerHTML += `
+                                <div style="
+                                    display: grid;
+                                    grid-template-columns: 1fr max-content;">
+                                    <div style="
+                                        padding: 1rem;"
+                                        onclick="chats_openChat(this)"
+                                        data-index="${data.books[currentBookIndex].chapters[currentChapterIndex].chats.indexOf(chat)}">
+                                        <div style="
+                                            background-color: #222;
+                                            border: 1px solid #555;
+                                            border-radius: 1rem;
+                                            padding: 1rem;">
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 1;
+                                                -webkit-box-orient: vertical;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;">
+                                                ${chat.date}
+                                            </div>
+                                            <div style="
+                                                display: -webkit-box;
+                                                -webkit-line-clamp: 5;
+                                                -webkit-box-orient: vertical;
+                                                overflow: hidden;
+                                                text-overflow: ellipsis;
+                                                color: #aaa;
+                                                margin-top: 1rem;">
+                                                ${escapeHtml(chat.messages[chat.messages.length - 1].content)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        padding: 1rem;
+                                        padding-left: 0rem;"
+                                        onclick="chats_btnDelete(this)"
+                                        data-index="${data.books[currentBookIndex].chapters[currentChapterIndex].chats.indexOf(chat)}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm80-160h80v-360h-80v360Zm160 0h80v-360h-80v360Z"/></svg>
+                                    </div>
+                                </div>`;
+                        }
+
+                        if (data.books[currentBookIndex].chapters[currentChapterIndex].chats.length == 0) {
+                            chats_panelHistory.innerHTML += `
+                                <div style="
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    height: 100%;
+                                    color: #aaa;">
+                                    No chats found
+                                </div>`;
+                        }
+
+                        break;
+                }
+            }
+
+            function home_btnMoveUp(element) {
+                let index = element.dataset.index;
+                index = parseInt(index);
+
+                if (index > 0) {
+                    let temp = data.books[index];
+                    data.books[index] = data.books[index - 1];
+                    data.books[index - 1] = temp;
+                    localStorage.setItem("20250717_data", JSON.stringify(data));
+                    openPage("home");
+                }
+            }
+
+            function home_btnMoveDown(element) {
+                let index = element.dataset.index;
+                index = parseInt(index);
+
+                if (index < data.books.length - 1) {
+                    let temp = data.books[index];
+                    data.books[index] = data.books[index + 1];
+                    data.books[index + 1] = temp;
+                    localStorage.setItem("20250717_data", JSON.stringify(data));
+                    openPage("home");
+                }
+            }
+
+            function home_btnOpenBook(element) {
+                let index = element.dataset.index;
+                index = parseInt(index);
+                currentBookIndex = index;
+                openPage("chapters");
+            }
+
+            function settings_funcSaveSettings() {
+                data.baseUrl = settings_inputBaseUrl.value;
+                data.apiKey = settings_inputApiKey.value;
+                data.model = settings_inputModel.value;
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+            }
+
+            function settings_btnExport() {
+                let blob = new Blob([JSON.stringify(data.books)], { type: "application/json" });
+                let url = URL.createObjectURL(blob);
+                let a = document.createElement("a");
+                a.href = url;
+                let filename = getDateString(new Date());
+                filename = prompt("Enter filename", filename);
+                if (filename == null) return;
+                a.download = `${filename}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            function settings_btnImport() {
+                if (confirm("Are you sure you want to import data? This will overwrite your current data.") == false) return;
+                let input = document.createElement("input");
+                input.type = "file";
+                input.accept = ".json";
+
+                input.onchange = () => {
+                    let file = input.files[0];
+                    let reader = new FileReader();
+
+                    reader.onload = () => {
+                        data.books = JSON.parse(reader.result);
+                        localStorage.setItem("20250717_data", JSON.stringify(data));
+                        openPage("home");
+                    }
+
+                    reader.readAsText(file);
+                }
+
+                input.click();
+            }
+
+            function settings_btnClear() {
+                if (confirm("Are you sure you want to clear all data?") == false) return;
+                data.books = [];
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("home");
+            }
+
+            function home_btnNewBook() {
+                data.books.splice(0, 0, {
+                    title: "New Book",
+                    description: "",
+                    chapters: []
+                });
+
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                currentBookIndex = 0;
+                openPage("editBook");
+            }
+
+            function editBook_btnCancel() {
+                if (confirm("Are you sure you want to cancel editing this book?") == false) return;
+                openPage("chapters");
+            }
+
+            function editBook_btnDelete() {
+                if (confirm("Are you sure you want to delete this book?") == false) return;
+
+                data.books.splice(currentBookIndex, 1);
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("home");
+            }
+
+            function editBook_btnSave() {
+                data.books[currentBookIndex].title = editBook_inputTitle.value;
+                data.books[currentBookIndex].description = editBook_inputDescription.value;
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("chapters");
+            }
+
+            function chapters_btnMoveDown(element) {
+                let index = element.dataset.index;
+                index = parseInt(index);
+
+                if (index < data.books[currentBookIndex].chapters.length - 1) {
+                    let temp = data.books[currentBookIndex].chapters[index];
+                    data.books[currentBookIndex].chapters[index] = data.books[currentBookIndex].chapters[index + 1];
+                    data.books[currentBookIndex].chapters[index + 1] = temp;
+                    localStorage.setItem("20250717_data", JSON.stringify(data));
+                    openPage("chapters");
+                }
+            }
+
+            function chapters_btnMoveUp(element) {
+                let index = element.dataset.index;
+                index = parseInt(index);
+
+                if (index > 0) {
+                    let temp = data.books[currentBookIndex].chapters[index];
+                    data.books[currentBookIndex].chapters[index] = data.books[currentBookIndex].chapters[index - 1];
+                    data.books[currentBookIndex].chapters[index - 1] = temp;
+                    localStorage.setItem("20250717_data", JSON.stringify(data));
+                    openPage("chapters");
+                }
+            }
+
+            function chapters_btnNewChapter() {
+                data.books[currentBookIndex].chapters.splice(0, 0, {
+                    title: "New Chapter",
+                    description: "",
+                    content: "",
+                    history: [],
+                    chats: []
+                });
+
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                currentChapterIndex = 0;
+                openPage("editChapter");
+            }
+
+            function editChapter_btnCancel() {
+                if (confirm("Are you sure you want to cancel editing this chapter?") == false) return;
+                openPage("content");
+            }
+
+            function editChapter_btnDelete() {
+                if (confirm("Are you sure you want to delete this chapter?") == false) return;
+                data.books[currentBookIndex].chapters.splice(currentChapterIndex, 1);
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("chapters");
+            }
+
+            function editChapter_btnSave() {
+                data.books[currentBookIndex].chapters[currentChapterIndex].title = editChapter_inputTitle.value;
+                data.books[currentBookIndex].chapters[currentChapterIndex].description = editChapter_inputDescription.value;
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("content");
+            }
+
+            function chapters_btnOpenChapter(element) {
+                let index = element.dataset.index;
+                index = parseInt(index);
+                currentChapterIndex = index;
+                openPage("content");
+            }
+
+            function content_inputContent_change() {
+                data.books[currentBookIndex].chapters[currentChapterIndex].content = content_inputContent.value;
+
+                data.books[currentBookIndex].chapters[currentChapterIndex].history.splice(0, 0, {
+                    date: getDateString(new Date()),
+                    content: content_inputContent.value
+                });
+
+                if (data.books[currentBookIndex].chapters[currentChapterIndex].history.length > 100) {
+                    data.books[currentBookIndex].chapters[currentChapterIndex].history.pop();
+                }
+                
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+            }
+
+            async function content_btnGenerate_click() {
+                let book = data.books[currentBookIndex];
+                let body = getContext();
+
+                body.push(
+                    {
+                        role: "system",
+                        content: "You will continue the current chapter based on the following prompt."
+                    },
+                    {
+                        role: "user",
+                        content: content_inputPrompt.value
+                    }
+                );
+
+                content_inputPrompt.value = "";
+                let originalButton = content_btnGenerate.innerHTML;
+                let originalButtonFunction = content_btnGenerate.getAttribute("onclick");
+                content_btnGenerate.setAttribute("onclick", "");
+
+                content_btnGenerate.innerHTML = `
+                    <svg width="24" height="24" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z"><animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12" repeatCount="indefinite"/></path></svg>`;
+            
+                try {
+                    let response = await fetch(data.baseUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${data.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: data.model,
+                            messages: body
+                        })
+                    });
+
+                    let json = await response.json();
+                    content_inputContent.value += `\n\n${json.choices[0].message.content}`;
+                    content_inputContent_change();
+                } catch (error) {
+                    alert(error);
+                }
+
+                content_btnGenerate.innerHTML = originalButton;
+                content_btnGenerate.setAttribute("onclick", originalButtonFunction);
+            }
+
+            function content_inputPrompt_input() {
+                content_inputPrompt.style.height = "auto";
+                content_inputPrompt.style.height = content_inputPrompt.scrollHeight + "px";
+
+                if (content_inputPrompt.scrollHeight < 5 * 16) {
+                    content_inputPrompt.style.height = "5rem";
+                }
+
+                if (content_inputPrompt.scrollHeight > 20 * 16) {
+                    content_inputPrompt.style.height = "20rem";
+                }
+            }
+
+            function history_btnClear() {
+                if (confirm("Are you sure you want to clear the history?") == false) return;
+                data.books[currentBookIndex].chapters[currentChapterIndex].history = [];
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("history");
+            }
+
+            function history_btnOpenHistory(element) {
+                if (confirm("Are you sure you want to overwrite the current content?") == false) return;
+                let index = element.dataset.index;
+                index = parseInt(index);
+                content_inputContent.value = data.books[currentBookIndex].chapters[currentChapterIndex].history[index].content;
+                content_inputContent_change();
+                openPage("content");
+            }
+
+            function history_btnDelete(element) {
+                if (confirm("Are you sure you want to delete this history?") == false) return;
+                let index = element.dataset.index;
+                index = parseInt(index);
+                data.books[currentBookIndex].chapters[currentChapterIndex].history.splice(index, 1);
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("history");
+            }
+
+            function chat_inputMessage_input() {
+                chat_inputMessage.style.height = "auto";
+                chat_inputMessage.style.height = chat_inputMessage.scrollHeight + "px";
+
+                if (chat_inputMessage.scrollHeight < 5 * 16) {
+                    chat_inputMessage.style.height = "5rem";
+                }
+
+                if (chat_inputMessage.scrollHeight > 20 * 16) {
+                    chat_inputMessage.style.height = "20rem";
+                }
+            }
+
+            async function chat_btnSend_click() {
+                let book = data.books[currentBookIndex];
+                let chapter = book.chapters[currentChapterIndex];
+                let body = getContext();
+
+                if (currentChatIndex != -1) {
+                    for (let chat of chapter.chats[currentChatIndex].messages) {
+                        body.push(chat);
+                    }
+                }
+
+                body.push(
+                    {
+                        role: "system",
+                        content: "You will discuss with the user about the current chapter."
+                    },
+                    {
+                        role: "user",
+                        content: chat_inputMessage.value
+                    }
+                );
+
+                if (currentChatIndex == -1) {
+                    chapter.chats.splice(0, 0, {
+                        date: getDateString(new Date()),
+                        messages: [
+                            {
+                                role: "user",
+                                content: chat_inputMessage.value
+                            }
+                        ]
+                    });
+
+                    localStorage.setItem("20250717_data", JSON.stringify(data));
+                }
+
+                currentChatIndex = 0;
+                chat_inputMessage.value = "";
+                let originalButton = chat_btnSend.innerHTML;
+                let originalButtonFunction = chat_btnSend.getAttribute("onclick");
+                chat_btnSend.setAttribute("onclick", "");
+                openPage("chat");
+
+                chat_btnSend.innerHTML = `
+                    <svg width="24" height="24" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M10.72,19.9a8,8,0,0,1-6.5-9.79A7.77,7.77,0,0,1,10.4,4.16a8,8,0,0,1,9.49,6.52A1.54,1.54,0,0,0,21.38,12h.13a1.37,1.37,0,0,0,1.38-1.54,11,11,0,1,0-12.7,12.39A1.54,1.54,0,0,0,12,21.34h0A1.47,1.47,0,0,0,10.72,19.9Z"><animateTransform attributeName="transform" type="rotate" dur="0.75s" values="0 12 12;360 12 12" repeatCount="indefinite"/></path></svg>`;
+            
+                try {
+                    let response = await fetch(data.baseUrl, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${data.apiKey}`
+                        },
+                        body: JSON.stringify({
+                            model: data.model,
+                            messages: body
+                        })
+                    });
+
+                    let json = await response.json();
+
+                    chapter.chats[currentChatIndex].messages.push({
+                        role: "assistant",
+                        content: json.choices[0].message.content
+                    });
+
+                    localStorage.setItem("20250717_data", JSON.stringify(data));
+                } catch (error) {
+                    alert(error);
+                }
+
+                chat_btnSend.innerHTML = originalButton;
+                chat_btnSend.setAttribute("onclick", originalButtonFunction);
+                openPage("chat");
+            }
+
+            function chat_btnNewChat() {
+                currentChatIndex = -1;
+                openPage("chat");
+            }
+
+            function chat_btnDelete(element) {
+                if (confirm("Are you sure you want to delete this chat?") == false) return;
+                let index = element.dataset.index;
+                index = parseInt(index);
+                data.books[currentBookIndex].chapters[currentChapterIndex].chats[currentChatIndex].messages.splice(index, 1);
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("chat");
+            }
+
+            function chats_btnDelete(element) {
+                if (confirm("Are you sure you want to delete this chat?") == false) return;
+                let index = element.dataset.index;
+                index = parseInt(index);
+                data.books[currentBookIndex].chapters[currentChapterIndex].chats.splice(index, 1);
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("chats");
+            }
+
+            function chats_btnClear() {
+                if (confirm("Are you sure you want to clear all chats?") == false) return;
+                data.books[currentBookIndex].chapters[currentChapterIndex].chats = [];
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("chats");
+            }
+
+            function chats_openChat(element) {
+                let index = element.dataset.index;
+                index = parseInt(index);
+                currentChatIndex = index;
+                openPage("chat");
+            }
+
+            function update() {
+                for (let book of data.books) {
+                    for (let chapter of book.chapters) {
+                        if (chapter.history == undefined) chapter.history = [];
+                        if (chapter.chats == undefined) chapter.chats = [];
+                    }
+                }
+
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+            }
+        </script>
+    </body>
+</html>

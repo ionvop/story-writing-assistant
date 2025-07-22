@@ -72,7 +72,7 @@
                         padding-left: 0rem;
                         font-size: 0.7rem;
                         color: #aaa;">
-                        v0.2.0 by ionvop
+                        v0.2.1 by ionvop
                     </div>
                     <div></div>
                     <div style="
@@ -665,10 +665,6 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
         <script>
-            if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("service-worker.js");
-            }
-
             let pageHome = document.getElementById("pageHome");
             let home_panelBooks = document.getElementById("home_panelBooks");
             let pageSettings = document.getElementById("pageSettings");
@@ -705,7 +701,11 @@
             let data = JSON.parse(localStorage.getItem("20250717_data"));
 
             try {
-                update();
+                normalizeData();
+
+                if ("serviceWorker" in navigator) {
+                    navigator.serviceWorker.register("service-worker.js");
+                }
 
                 if (data == null) {
                     data = {
@@ -1594,11 +1594,74 @@
                 openPage("chat");
             }
 
-            function update() {
+            function normalizeData() {
+                // data structure
+                // {
+                //     baseUrl: "https://api.openai.com/v1/chat/completions",
+                //     apiKey: "",
+                //     model: "gpt-4o-mini",
+                //     books: [
+                //         {
+                //             name: "",
+                //             description: "",
+                //             chapters: [
+                //                 {
+                //                     name: "",
+                //                     description: "",
+                //                     history: [
+                //                         {
+                //                             date: "",
+                //                             content: ""
+                //                         }
+                //                     ],
+                //                     chats: [
+                //                         {
+                //                             date: "",
+                //                             messages: [
+                //                                 {
+                //                                     role: "",
+                //                                     content: ""
+                //                                 }
+                //                             ]
+                //                         }
+                //                     ]
+                //                 }
+                //             ]
+                //         }
+                //     ]
+                // }
+
+                if (data == null) data = {};
+                if (data.baseUrl == null) data.baseUrl = "https://api.openai.com/v1/chat/completions";
+                if (data.apiKey == null) data.apiKey = "";
+                if (data.model == null) data.model = "gpt-4o-mini";
+                if (data.books == null) data.books = [];
+
                 for (let book of data.books) {
+                    if (book.title == null) book.title = "";
+                    if (book.description == null) book.description = "";
+                    if (book.chapters == null) book.chapters = [];
+
                     for (let chapter of book.chapters) {
-                        if (chapter.history == undefined) chapter.history = [];
-                        if (chapter.chats == undefined) chapter.chats = [];
+                        if (chapter.name == null) chapter.name = "";
+                        if (chapter.description == null) chapter.description = "";
+                        if (chapter.history == null) chapter.history = [];
+                        if (chapter.chats == null) chapter.chats = [];
+
+                        for (let history of chapter.history) {
+                            if (history.date == null) history.date = "";
+                            if (history.content == null) history.content = "";
+                        }
+
+                        for (let chat of chapter.chats) {
+                            if (chat.date == null) chat.date = "";
+                            if (chat.messages == null) chat.messages = [];
+
+                            for (let message of chat.messages) {
+                                if (message.role == null) message.role = "";
+                                if (message.content == null) message.content = "";
+                            }
+                        }
                     }
                 }
 

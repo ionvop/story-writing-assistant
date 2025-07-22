@@ -72,7 +72,7 @@
                         padding-left: 0rem;
                         font-size: 0.7rem;
                         color: #aaa;">
-                        v0.2.1 by ionvop
+                        v0.3.0 by ionvop
                     </div>
                     <div></div>
                     <div style="
@@ -172,24 +172,41 @@
                             onchange="settings_funcSaveSettings()">
                     </div>
                     <div style="
-                        padding: 1rem;">
-                        <button onclick="settings_btnImport()">
-                            Import Data
-                        </button>
-                    </div>
-                    <div style="
-                        padding: 1rem;
-                        padding-top: 0rem">
-                        <button onclick="settings_btnExport()">
-                            Export Data
-                        </button>
-                    </div>
-                    <div style="
-                        padding: 1rem;
-                        padding-top: 0rem">
-                        <button onclick="settings_btnClear()">
-                            Clear Data
-                        </button>
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);">
+                        <div>
+                            <div style="
+                                padding: 1rem;
+                                text-align: center;">
+                                <button onclick="settings_btnImport()">
+                                    Import Data
+                                </button>
+                            </div>
+                            <div style="
+                                padding: 1rem;
+                                padding-top: 0rem;
+                                text-align: center;">
+                                <button onclick="settings_btnExport()">
+                                    Export Data
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="
+                                padding: 1rem;
+                                text-align: center;">
+                                <button onclick="settings_btnImportBook()">
+                                    Import Book
+                                </button>
+                            </div>
+                            <div style="
+                                padding: 1rem;
+                                padding-top: 0rem">
+                                <button onclick="settings_btnClear()">
+                                    Clear Data
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -244,12 +261,22 @@
                     </div>
                     <div style="
                         display: grid;
-                        grid-template-columns: max-content 1fr max-content;">
+                        grid-template-columns: repeat(3, max-content) 1fr max-content;">
                         <div style="
                             padding: 1rem;
                             color: #f00;"
                             onclick="editBook_btnDelete()">
                             Delete
+                        </div>
+                        <div style="
+                            padding: 1rem;"
+                            onclick="editBook_btnDuplicate()">
+                            Duplicate
+                        </div>
+                        <div style="
+                            padding: 1rem;"
+                            onclick="editBook_btnExport()">
+                            Export
                         </div>
                         <div></div>
                         <div style="
@@ -1263,6 +1290,25 @@
                 input.click();
             }
 
+            function settings_btnImportBook() {
+                let input = document.createElement("input");
+                input.type = "file";
+                input.accept = ".json";
+
+                input.onchange = () => {
+                    let file = input.files[0];
+                    let reader = new FileReader();
+
+                    reader.onload = () => {
+                        data.books.splice(0, 0, JSON.parse(reader.result));
+                        localStorage.setItem("20250717_data", JSON.stringify(data));
+                        openPage("home");
+                    }
+
+                    reader.readAsText(file);
+                }
+            }
+
             function settings_btnClear() {
                 if (confirm("Are you sure you want to clear all data?") == false) return;
                 data.books = [];
@@ -1293,6 +1339,26 @@
                 data.books.splice(currentBookIndex, 1);
                 localStorage.setItem("20250717_data", JSON.stringify(data));
                 openPage("home");
+            }
+
+            function editBook_btnDuplicate() {
+                if (confirm("Are you sure you want to duplicate this book?") == false) return;
+                data.books.splice(0, 0, JSON.parse(JSON.stringify(data.books[currentBookIndex])));
+                localStorage.setItem("20250717_data", JSON.stringify(data));
+                openPage("home");
+            }
+
+            function editBook_btnExport() {
+                let blob = new Blob([JSON.stringify(data.books[currentBookIndex])], { type: "application/json" });
+                let url = URL.createObjectURL(blob);
+                let a = document.createElement("a");
+                a.href = url;
+                let filename = getDateString(new Date());
+                filename = prompt("Enter filename", filename);
+                if (filename == null) return;
+                a.download = `${filename}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
             }
 
             function editBook_btnSave() {
@@ -1595,42 +1661,6 @@
             }
 
             function normalizeData() {
-                // data structure
-                // {
-                //     baseUrl: "https://api.openai.com/v1/chat/completions",
-                //     apiKey: "",
-                //     model: "gpt-4o-mini",
-                //     books: [
-                //         {
-                //             name: "",
-                //             description: "",
-                //             chapters: [
-                //                 {
-                //                     name: "",
-                //                     description: "",
-                //                     history: [
-                //                         {
-                //                             date: "",
-                //                             content: ""
-                //                         }
-                //                     ],
-                //                     chats: [
-                //                         {
-                //                             date: "",
-                //                             messages: [
-                //                                 {
-                //                                     role: "",
-                //                                     content: ""
-                //                                 }
-                //                             ]
-                //                         }
-                //                     ]
-                //                 }
-                //             ]
-                //         }
-                //     ]
-                // }
-
                 if (data == null) data = {};
                 if (data.baseUrl == null) data.baseUrl = "https://api.openai.com/v1/chat/completions";
                 if (data.apiKey == null) data.apiKey = "";

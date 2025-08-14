@@ -1,14 +1,6 @@
 # story-writing-assistant
 This web application leverages OpenAI's API to assist in generating content based on user prompts.
 
-## Table of Contents
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Settings](#settings)
-- [Development](#development)
-- [License](#license)
-
 ## Features
 - Create and manage multiple books and chapters, including titles and descriptions.
 - Use the OpenAI API to generate text based on prompts and previous context.
